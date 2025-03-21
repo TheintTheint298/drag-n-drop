@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import Note from "./components/Note";
+import Bin from "./components/Bin";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [notes, setNotes] = useState([]);
+  const [binnedItems, setBinnedItems] = useState([]);
+
+  useEffect(() => {
+    const initialNotes = ["Note 1", "Note 2", "Note 3"];
+    localStorage.setItem("notesList", JSON.stringify(initialNotes));
+
+    let array = localStorage.getItem("notesList");
+    setNotes(JSON.parse(array));
+  }, []);
+
+  useEffect(() => {
+    let array = localStorage.getItem("binnedItems");
+
+    if (array) {
+      setBinnedItems(JSON.parse(array));
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <h1 className="text-center text-3xl font-semibold mt-4 my-2">
+        Drag-n-Drop
+      </h1>
+      {notes.map((item) => (
+        <Note
+          key={new Date().getTime() + Math.floor(Math.random() * 1000)}
+          note={item}
+          binnedItems={binnedItems}
+        />
+      ))}
+      <Bin binnedItems={binnedItems} />
+    </DndProvider>
   );
 }
 
