@@ -9,6 +9,7 @@ const Bin = ({ binnedItems }) => {
             canDrop: !!monitor.canDrop(),
         })
     }), [],)
+    
     return (
         <div className='border h-48' ref={drop}>
             <h2 className='text-center font-medium py-2'>Bin</h2>

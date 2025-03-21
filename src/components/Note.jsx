@@ -1,6 +1,6 @@
 import { useDrag } from "react-dnd"
 
-const Note = ({ note, binnedItems }) => {
+const Note = ({ note, notes, binnedItems }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'note',
         item: {name: note},
@@ -18,6 +18,7 @@ const Note = ({ note, binnedItems }) => {
             isDragging: !!monitor.isDragging(),
         })
     }), [],)
+
     return (
         <div ref={drag}>{note}</div>
     )
